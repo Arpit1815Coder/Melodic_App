@@ -9,6 +9,7 @@ function Player({ spotify }) {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  // Fetch user's playlists on component mount
   useEffect(() => {
     spotify.getUserPlaylists().then(response => {
       setPlaylists(response.items);
@@ -17,6 +18,7 @@ function Player({ spotify }) {
     });
   }, [spotify]);
 
+  // Function to fetch tracks for a selected playlist
   const fetchPlaylistTracks = (playlistId) => {
     spotify.getPlaylistTracks(playlistId).then(response => {
       setPlaylistTracks(response.items);
@@ -26,6 +28,7 @@ function Player({ spotify }) {
     });
   };
 
+  // Function to play a selected track
   const playSong = (trackUri) => {
     spotify.play({ uris: [trackUri] }).then(() => {
       spotify.getMyCurrentPlayingTrack().then((r) => {
@@ -37,6 +40,7 @@ function Player({ spotify }) {
     });
   };
 
+  // Function to handle play/pause button click
   const handlePlayPause = () => {
     if (isPlaying) {
       spotify.pause();
@@ -47,10 +51,12 @@ function Player({ spotify }) {
     }
   };
 
+  // Function to skip to the next track
   const skipNext = () => {
     spotify.skipToNext();
   };
 
+  // Function to skip to the previous track
   const skipPrevious = () => {
     spotify.skipToPrevious();
   };
@@ -62,7 +68,7 @@ function Player({ spotify }) {
         {playlists.map(playlist => (
           <div key={playlist.id} className="playlist" onClick={() => {
             setSelectedPlaylist(playlist);
-            fetchPlaylistTracks(playlist.id);
+            fetchPlaylistTracks(playlist.id); // Fetch tracks when playlist is clicked
           }}>
             <h2>{playlist.name}</h2>
           </div>
@@ -76,7 +82,7 @@ function Player({ spotify }) {
               <img src={track.track.album.images[0].url} alt={track.track.name} />
               <div>
                 <h3>{track.track.name}</h3>
-                <p>{track.track.artists[0].name}</p>
+                <p>{track.track.artists.map(artist => artist.name).join(', ')}</p>
                 <button onClick={() => playSong(track.track.uri)}>Play</button>
               </div>
             </div>
@@ -89,7 +95,7 @@ function Player({ spotify }) {
           <img src={currentTrack.album.images[0].url} alt={currentTrack.name} />
           <div>
             <h3>{currentTrack.name}</h3>
-            <p>{currentTrack.artists[0].name}</p>
+            <p>{currentTrack.artists.map(artist => artist.name).join(', ')}</p>
           </div>
           <div className="controls">
             <button onClick={skipPrevious}>Previous</button>
