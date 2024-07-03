@@ -1,0 +1,95 @@
+/* src/App.css */
+.app {
+  text-align: center;
+}
+
+.login img {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.login a {
+  padding: 20px;
+  background-color: #1db954;
+  color: white;
+  border-radius: 99px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.player {
+  padding: 20px;
+}
+
+.playlists {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.playlist {
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 300px;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.track img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.track h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.track p {
+  margin: 0;
+  color: #666;
+}
+
+.track button {
+  margin-left: auto;
+  padding: 10px;
+  background-color: #1db954;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.now-playing {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.now-playing img {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
+}
+
+.now-playing h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.now-playing p {
+  margin: 0;
+  color: #666;
+}
