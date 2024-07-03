@@ -5,7 +5,7 @@ import { loginUrl } from "./auth";
 function Login() {
   return (
     <div className="login">
-      <img src="/public/melodic.png" alt="" />
+      <img src="melodic.png" alt="Melodic Logo"/>
       <a href={loginUrl}>LOGIN WITH MELODIC</a>
     </div>
   );
