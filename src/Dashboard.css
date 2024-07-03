@@ -6,7 +6,7 @@
   
   .sidebar {
     width: 200px;
-    background-color: #602222;
+    background-color: #3378ada5;
     padding: 20px;
     position: fixed;
     height: 100%; /* Occupy full height of the viewport */
@@ -37,21 +37,25 @@
     margin-left: 250px; /* Adjust to match sidebar width */
     flex: 1; /* Take remaining space */
     padding: 20px;
+    text-align: center;
    
   }
   
   .playlist-tracks {
-    margin-top: 20px;
+    margin-top: 10px;
     
    
   }
 
   .playlist-tracks h2{
-    border: 1px solid beige;
+    
     border-radius: 4px;
+    background-color: rgba(44, 189, 44, 0.306);
     padding: 3px;
     font-size: 2rem;
     margin-bottom: 30px;
+    
+    
 
   }
   
@@ -69,14 +73,14 @@
     border-radius: 4px;
     display: flex;
     flex-direction: column; /* Stack content vertically */
-    height: 150px; /* Fixed height for each track item */
+    /* height: 150px; */
   }
   
   .track img {
     
-    min-height: 150px;
-    min-width: 150px;
-    object-fit:fill;
+    /* min-height: 150px;
+    min-width: 150px; */
+    object-fit:cover;
     border-radius: 4px;
     display: block; /* Remove any default spacing or alignment issues */
   }
