@@ -1,0 +1,98 @@
+/* Dashboard.css */
+
+.dashboard {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #602222;
+    padding: 20px;
+    position: fixed;
+    height: 100%; /* Occupy full height of the viewport */
+    overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
+  }
+  
+  .sidebar h2 {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  .sidebar li:hover {
+    background-color: #ccc;
+  }
+  
+  .main-content {
+    margin-left: 250px; /* Adjust to match sidebar width */
+    flex: 1; /* Take remaining space */
+    padding: 20px;
+   
+  }
+  
+  .playlist-tracks {
+    margin-top: 20px;
+    
+   
+  }
+
+  .playlist-tracks h2{
+    border: 1px solid beige;
+    border-radius: 4px;
+    padding: 3px;
+    font-size: 2rem;
+    margin-bottom: 30px;
+
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 30px;
+    
+    
+  }
+  
+  .track {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    height: 150px; /* Fixed height for each track item */
+  }
+  
+  .track img {
+    
+    min-height: 150px;
+    min-width: 150px;
+    object-fit:fill;
+    border-radius: 4px;
+    display: block; /* Remove any default spacing or alignment issues */
+  }
+  
+  .track-info {
+    padding: 10px;
+  }
+  
+  .track h3 {
+    margin: 0;
+    font-size: 1rem; /* Adjust font size as needed */
+  }
+  
+  .track p {
+    margin: 5px 0 0;
+    font-size: 0.9rem; /* Adjust font size as needed */
+    color: #666;
+  }
+  
