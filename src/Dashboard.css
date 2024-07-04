@@ -1,104 +1,226 @@
 /* Dashboard.css */
 
 .dashboard {
-    display: flex;
-  }
-  
-  .sidebar {
-    width: 200px;
-    background-color: #3378ada5;
-    padding: 20px;
-    position: fixed;
-    height: 100%; /* Occupy full height of the viewport */
-    overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
-  }
-  
-  .sidebar h2 {
-    margin-bottom: 10px;
-  }
-  
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-  }
-  
-  .sidebar li:hover {
-    background-color: #ccc;
-  }
-  
-  .main-content {
-    margin-left: 250px; /* Adjust to match sidebar width */
-    flex: 1; /* Take remaining space */
-    padding: 20px;
-    text-align: center;
-   
-  }
-  
-  .playlist-tracks {
-    margin-top: 10px;
-    
-   
-  }
+  display: flex;
+}
 
-  .playlist-tracks h2{
-    
-    border-radius: 4px;
-    background-color: rgba(44, 189, 44, 0.306);
-    padding: 3px;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    
-    
+.sidebar {
+  width: 250px;
+  background-color: #3378ada5;
+  padding: 20px;
+  position: fixed;
+  height: 100%; /* Occupy full height of the viewport */
+  overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
+  display: flex;
+  flex-direction: column;
+  
+}
 
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 30px;
-    
-    
-  }
-  
-  .track {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column; /* Stack content vertically */
-    /* height: 150px; */
-  }
-  
-  .track img {
-    
-    /* min-height: 150px;
-    min-width: 150px; */
-    object-fit:cover;
-    border-radius: 4px;
-    display: block; /* Remove any default spacing or alignment issues */
-  }
-  
-  .track-info {
-    padding: 10px;
-  }
-  
-  .track h3 {
-    margin: 0;
-    font-size: 1rem; /* Adjust font size as needed */
-  }
-  
-  .track p {
-    margin: 5px 0 0;
-    font-size: 0.9rem; /* Adjust font size as needed */
-    color: #666;
-  }
+.sidebar h2 {
+  margin-bottom: 10px;
+}
 
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.sidebar li:hover {
+  background-color: rgba(0, 255, 255, 0.63);
+}
+
+.main-content {
+  margin-left: 300px; /* Adjust to match sidebar width */
+  flex: 1; /* Take remaining space */
+  padding: 20px;
+  text-align: center;
+}
+
+.playlist-tracks {
+  position: relative; /* Ensure the container is positioned relative */
+}
+
+.playlist-tracks h2 {
+  position: sticky; /* Make the h2 element sticky */
+  top: 0; /* Stick to the top of the container */
+  background-color: rgb(0, 0, 0); /* Adjust background color and opacity as needed */
+  border-radius: 4px;
+  font-family: fantasy;
+  font-weight: 300;
+  z-index: 1; /* Ensure it displays over other elements */
+  padding: 10px ; /* Add padding for spacing */
+  margin-bottom: 10px; /* Adjust margin bottom for spacing */
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 30px;
+}
+
+.track {
+  position: relative;
+  overflow: hidden;
+}
+
+.track img {
+  object-fit: cover;
+  border-radius: 4px;
+  display: block; /* Remove any default spacing or alignment issues */
+  width: 100%;
+  height: auto;
+}
+
+.track-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Set opacity to 0 by default */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.track:hover .track-overlay {
+  opacity: 1; /* Set opacity to 1 on hover */
+}
+
+.play-button {
+  background: none;
+  border: none;
+  color: #4CAF50; /* Green color */
+  font-size: 48px; /* Adjust icon size */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  margin-top: 20px;
+}
+
+.search-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-container input {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.search-container button {
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: #45a049;
+}
+
+.search-results {
+  margin-top: 20px;
+}
+
+.search-results ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-results li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+
+.logo-section img {
   
   
+  width: 100px;
+  height: 100px;
+
+}
+
+.logo-section h2{
+  margin-top: 30px;
+  font-family: fantasy;
+  color: #000;
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+.logo-section{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  background-color: aqua;
+  border-radius: 30px;
+}
+
+
+.search-section{
+  display: flex;
+  margin-top: 50px;
+  gap: 30px;
+}
+
+.search-section input {
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  width: 190px;
+ 
+}
+.search-section button{
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  color: #4CAF50;
+  background-color: #000;
+  margin-left: 10px;
+ 
+}
+
+.playlist-section{
+  border: 1px solid white;
+  margin-top: 50px;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+  
+}
+
+.playlist-section h2{
+  color: #000;
+  font-family: fantasy;
+  
+  background-color: aqua;
+  border-radius: 4px;
+  font-weight: 300;
+}
+
+
