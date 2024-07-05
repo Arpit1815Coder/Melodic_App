@@ -37,9 +37,11 @@ function Dashboard({ spotify }) {
   };
 
   // Function to handle playlist click
-  const handlePlaylistClick = (playlist) => {
+  const handlePlaylistClick = async (playlist) => {
     setSelectedPlaylist(playlist);
-    fetchPlaylistTracks(playlist.id);
+    setSearchResults([]); // Clear search results
+    setSearchQuery(''); // Clear search query
+    await fetchPlaylistTracks(playlist.id);
   };
 
   // Function to handle search input change
@@ -61,20 +63,23 @@ function Dashboard({ spotify }) {
     }
   };
 
-  // Function to play a track
+  // Function to play or pause a track
   const playTrack = (track) => {
-    if (currentTrack) {
-      // Pause the current track if playing
-      audio.pause();
-      setCurrentTrack(null);
+    if (currentTrack && currentTrack.id === track.id) {
+      // If the same track is playing, pause it
+      if (!audio.paused) {
+        audio.pause();
+        setCurrentTrack(null);
+      }
+    } else {
+      // Set new track to play
+      setCurrentTrack(track);
+      audio.src = track.preview_url;
+      audio.currentTime = 0; // Start from the beginning
+      audio.play().catch((error) => {
+        console.error('Failed to play track:', error);
+      });
     }
-
-    // Set new track to play
-    setCurrentTrack(track);
-    audio.src = track.preview_url;
-    audio.play().catch((error) => {
-      console.error('Failed to play track:', error);
-    });
   };
 
   // Event listener to handle track end
@@ -98,14 +103,12 @@ function Dashboard({ spotify }) {
           <h2>Melodic</h2>
         </div>
         <div className="search-section">
-          
           <form onSubmit={handleSearchSubmit}>
-           
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder='Search for Tracks...'
+              placeholder="Search for Tracks..."
             />
             <button type="submit"><i className="fas fa-search"></i></button>
           </form>
@@ -122,7 +125,33 @@ function Dashboard({ spotify }) {
         </div>
       </div>
       <div className="main-content">
-        {selectedPlaylist && (
+        {searchResults.length > 0 ? (
+          <div className="search-results">
+            <h2>Search Results</h2>
+            <div className="grid-container">
+              {searchResults.map((track) => (
+                <div key={track.id} className="track">
+                  <img
+                    src={track.album.images[0]?.url || 'placeholder-url'}
+                    alt={track.name}
+                  />
+                  <div className="track-overlay">
+                    <button
+                      className="play-button"
+                      onClick={() => playTrack(track)}
+                    >
+                      {currentTrack && currentTrack.id === track.id && !audio.paused ? (
+                        <i className="fas fa-pause-circle"></i>
+                      ) : (
+                        <i className="fas fa-play-circle"></i>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : selectedPlaylist && (
           <div className="playlist-tracks">
             <h2>{selectedPlaylist.name}</h2>
             <div className="grid-container">
@@ -137,25 +166,16 @@ function Dashboard({ spotify }) {
                       className="play-button"
                       onClick={() => playTrack(track.track)}
                     >
-                      <i className="fas fa-play-circle"></i>
+                      {currentTrack && currentTrack.id === track.track.id && !audio.paused ? (
+                        <i className="fas fa-pause-circle"></i>
+                      ) : (
+                        <i className="fas fa-play-circle"></i>
+                      )}
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        )}
-        {searchResults.length > 0 && (
-          <div className="search-results">
-            <h2>Search Results</h2>
-            <ul>
-              {searchResults.map((track) => (
-                <li key={track.id}>
-                  {track.name} by {track.artists.map((artist) => artist.name).join(', ')}
-                  <button onClick={() => playTrack(track)}>Play</button>
-                </li>
-              ))}
-            </ul>
           </div>
         )}
       </div>
