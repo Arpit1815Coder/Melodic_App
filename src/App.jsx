@@ -28,10 +28,10 @@ function App() {
         console.log("User: ", user);
         setLoading(false);
       });
-    } else {
-      // Handle case when no token is found
-      window.location.href = '/login'; // Redirect to a login page or handle login flow
-    }
+    // } else {
+    //   // Handle case when no token is found
+    //   window.location.href = '/login'; // Redirect to a login page or handle login flow
+    // }
   }, []);
 
   if (loading) {
