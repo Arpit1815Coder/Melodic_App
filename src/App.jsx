@@ -29,7 +29,8 @@ function App() {
         setLoading(false);
       });
     } else {
-      setLoading(false);
+      // Handle case when no token is found
+      window.location.href = '/login'; // Redirect to a login page or handle login flow
     }
   }, []);
 
