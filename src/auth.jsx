@@ -4,8 +4,8 @@ export const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
 const redirectUri = process.env.NODE_ENV === 'production'
-  ? process.env.REACT_APP_SPOTIFY_REDIRECT_URI_PRODUCTION
-  : process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
+  ? process.env.REACT_APP_SPOTIFY_REDIRECT_URI
+  : 'http://localhost:3000/callback';
 
 const scopes = [
   'user-read-private',
