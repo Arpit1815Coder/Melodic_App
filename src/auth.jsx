@@ -1,8 +1,7 @@
 // src/auth.js
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 const clientId = "de27af0e5ffc4194a444f02244cd7605";
-
-const redirectUri = process.env.NODE_ENV === 'production' ? 'https://melodify-three.vercel.app/callback' : 'http://localhost:3000/callback';
+const redirectUri = "http://localhost:3000/";
 
 const scopes = [
   "user-read-currently-playing",
