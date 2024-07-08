@@ -9,67 +9,36 @@ const spotify = new SpotifyWebApi();
 
 function App() {
   const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('spotifyAccessToken');
     const hash = getTokenFromUrl();
     window.location.hash = "";
-    const _token = hash.access_token;
+    const _token = hash.access_token || storedToken;
 
     if (_token) {
+      localStorage.setItem('spotifyAccessToken', _token);
       setToken(_token);
       spotify.setAccessToken(_token);
 
+      // Additional initialization logic if needed
       spotify.getMe().then(user => {
         console.log("User: ", user);
+        setLoading(false);
       });
-
-      const script = document.createElement('script');
-      script.src = 'https://sdk.scdn.co/spotify-player.js';
-      script.async = true;
-
-      script.onload = () => {
-        window.onSpotifyWebPlaybackSDKReady = () => {
-          const player = new window.Spotify.Player({
-            name: 'Web Playback SDK Quick Start Player',
-            getOAuthToken: cb => { cb(_token); },
-            volume: 0.5
-          });
-
-          player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-          });
-
-          player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device ID has gone offline', device_id);
-          });
-
-          player.addListener('initialization_error', ({ message }) => {
-            console.error('Failed to initialize', message);
-          });
-
-          player.addListener('authentication_error', ({ message }) => {
-            console.error('Failed to authenticate', message);
-          });
-
-          player.addListener('account_error', ({ message }) => {
-            console.error('Failed to validate Spotify account', message);
-          });
-
-          player.addListener('playback_error', ({ message }) => {
-            console.error('Failed to perform playback', message);
-          });
-
-          player.connect();
-        };
-      };
-
-      document.body.appendChild(script);
+    } else {
+      setLoading(false);
     }
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>; // Optionally, display a loading indicator
+  }
+
   return (
     <div className="app">
-      {!token ? <Login /> : <Dashboard spotify={spotify} />}
+      {token ? <Dashboard spotify={spotify} /> : <Login />}
     </div>
   );
 }

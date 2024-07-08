@@ -2,12 +2,14 @@
 
 .dashboard {
   display: flex;
+  padding: 10px;
 }
 
 .sidebar {
   width: 250px;
   background-color: #3378ada5;
   padding: 20px;
+  border-top-right-radius: 40px;
   position: fixed;
   height: 100%; /* Occupy full height of the viewport */
   overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
@@ -270,3 +272,25 @@
   border-radius: 4px;
   font-weight: 300;
 }
+
+
+
+/* Add media queries to make your design responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+}
+
