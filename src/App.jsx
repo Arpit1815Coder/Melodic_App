@@ -4,6 +4,7 @@ import { getTokenFromUrl } from "./auth";
 import SpotifyWebApi from "spotify-web-api-js";
 import Dashboard from "./Dashboard";
 import "./App.css";
+import "./Loading.css"
 
 const spotify = new SpotifyWebApi();
 
@@ -33,7 +34,11 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Optionally, display a loading indicator
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
   return (
