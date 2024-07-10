@@ -1,9 +1,13 @@
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
-const redirectUri = process.env.NODE_ENV === 'production'
-  ? process.env.REACT_APP_SPOTIFY_REDIRECT_URI
-  : 'http://localhost:3000/callback';
+// Set redirect URI based on NODE_ENV
+let redirectUri = '';
+if (process.env.NODE_ENV === 'production') {
+  redirectUri = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
+} else {
+  redirectUri = 'http://localhost:3000/callback';
+}
 
 const scopes = [
   'user-read-private',
@@ -26,7 +30,7 @@ export const getTokenFromUrl = () => {
     }, {});
 };
 
-export const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+export const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scopes.join(
   '%20'
 )}&response_type=token&show_dialog=true`;
 
