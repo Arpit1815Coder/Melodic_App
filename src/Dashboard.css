@@ -294,3 +294,45 @@
   }
 }
 
+
+
+.grid-container.large-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.track img.large-image, .artist img.large-image {
+  width: 100%;
+  height: auto;
+ 
+}
+
+
+
+.top{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 80px;
+  padding: 30px;
+  border: 2px solid rgba(86, 143, 189, 0.642);
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.top img{
+  width: 300px;
+  height: auto;
+}
+
+.top h2{
+  font-family: fantasy;
+  padding: 2px;
+  font-size: 2rem;
+  font-weight: 300;
+  background-color: #45a049;
+  width: 100%;
+  
+
+}

@@ -1,5 +1,3 @@
-// auth.js
-
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
@@ -12,7 +10,8 @@ const scopes = [
   'user-read-email',
   'playlist-read-private',
   'playlist-read-collaborative',
-  'user-top-read',
+  'user-top-read', // Scope for top tracks and albums
+  'user-library-read', // Scope for accessing user's saved tracks and albums
   // add any other scopes you need
 ];
 
@@ -30,3 +29,8 @@ export const getTokenFromUrl = () => {
 export const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
   '%20'
 )}&response_type=token&show_dialog=true`;
+
+// Debugging logs
+console.log('Client ID:', clientId);
+console.log('Redirect URI:', redirectUri);
+console.log('Login URL:', loginUrl);

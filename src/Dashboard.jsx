@@ -9,6 +9,10 @@ function Dashboard({ spotify }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(null);
+  const [topTracks, setTopTracks] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
+  const [selectedArtist, setSelectedArtist] = useState(null);
+  const [artistTracks, setArtistTracks] = useState([]); // State for artist tracks
   const audio = useMemo(() => new Audio(), []);
 
   useEffect(() => {
@@ -22,7 +26,25 @@ function Dashboard({ spotify }) {
       }
     };
 
+    // Fetch user's top tracks and top artists
+    const fetchTopTracksAndArtists = async () => {
+      try {
+        const tracksResponse = await spotify.getMyTopTracks({ limit: 5 });
+        const artistsResponse = await spotify.getMyTopArtists({ limit: 5 });
+
+        if (!tracksResponse || !artistsResponse) {
+          throw new Error('Invalid response from Spotify API');
+        }
+
+        setTopTracks(tracksResponse.items);
+        setTopArtists(artistsResponse.items);
+      } catch (error) {
+        console.error('Error fetching top tracks and artists:', error);
+      }
+    };
+
     fetchPlaylists();
+    fetchTopTracksAndArtists();
   }, [spotify]);
 
   // Function to fetch tracks for a selected playlist
@@ -36,12 +58,33 @@ function Dashboard({ spotify }) {
     }
   };
 
+  // Function to fetch top tracks for a selected artist
+  const fetchArtistTopTracks = async (artistId) => {
+    try {
+      const response = await spotify.getArtistTopTracks(artistId, 'US');
+      setArtistTracks(response.tracks); // Update artistTracks state
+    } catch (error) {
+      console.error('Error fetching artist top tracks:', error);
+      setArtistTracks([]);
+    }
+  };
+
   // Function to handle playlist click
   const handlePlaylistClick = async (playlist) => {
     setSelectedPlaylist(playlist);
     setSearchResults([]); // Clear search results
     setSearchQuery(''); // Clear search query
+    setSelectedArtist(null); // Clear selected artist
     await fetchPlaylistTracks(playlist.id);
+  };
+
+  // Function to handle artist click
+  const handleArtistClick = async (artist) => {
+    setSelectedPlaylist(null); // Clear selected playlist
+    setSearchResults([]); // Clear search results
+    setSearchQuery(''); // Clear search query
+    await fetchArtistTopTracks(artist.id);
+    setSelectedArtist(artist);
   };
 
   // Function to handle search input change
@@ -128,12 +171,13 @@ function Dashboard({ spotify }) {
         {searchResults.length > 0 ? (
           <div className="search-results">
             <h2>Search Results</h2>
-            <div className="grid-container">
+            <div className="grid-container large-layout">
               {searchResults.map((track) => (
                 <div key={track.id} className="track">
                   <img
                     src={track.album.images[0]?.url || 'placeholder-url'}
                     alt={track.name}
+                    className="large-image"
                   />
                   <div className="track-overlay">
                     <button
@@ -151,15 +195,16 @@ function Dashboard({ spotify }) {
               ))}
             </div>
           </div>
-        ) : selectedPlaylist && (
+        ) : selectedPlaylist ? (
           <div className="playlist-tracks">
             <h2>{selectedPlaylist.name}</h2>
-            <div className="grid-container">
+            <div className="grid-container large-layout">
               {playlistTracks.map((track) => (
                 <div key={track.track.id} className="track">
                   <img
                     src={track.track.album.images[0]?.url || 'placeholder-url'}
                     alt={track.track.name}
+                    className="large-image"
                   />
                   <div className="track-overlay">
                     <button
@@ -175,6 +220,92 @@ function Dashboard({ spotify }) {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        ) : selectedArtist ? (
+          <div className="artist-tracks">
+            <div className='top'> 
+            <img
+              src={selectedArtist.images[0]?.url || 'placeholder-url'}
+              alt={selectedArtist.name}
+              className="large-image"
+            />
+             <h2>{selectedArtist.name}</h2>
+             
+             </div>
+            
+            <div className="grid-container small-layout">
+              {artistTracks.map((track) => (
+                <div key={track.id} className="track">
+                  <img
+                    src={track.album.images[0]?.url || 'placeholder-url'}
+                    alt={track.name}
+                    className="large-image"
+                  />
+                  <div className="track-overlay">
+                    <button
+                      className="play-button"
+                      onClick={() => playTrack(track)}
+                    >
+                      {currentTrack && currentTrack.id === track.id && !audio.paused ? (
+                        <i className="fas fa-pause-circle"></i>
+                      ) : (
+                        <i className="fas fa-play-circle"></i>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="top-content">
+            <div className="top-tracks">
+              <h2>Top Tracks</h2>
+              <div className="grid-container large-layout">
+                {topTracks.map((track) => (
+                  <div key={track.id} className="track">
+                    <img
+                      src={track.album.images[0]?.url || 'placeholder-url'}
+                      alt={track.name}
+                      className="large-image"
+                    />
+                    <div className="track-overlay">
+                      <button
+                        className="play-button"
+                        onClick={() => playTrack(track)}
+                      >
+                        {currentTrack && currentTrack.id === track.id && !audio.paused ? (
+                          <i className="fas fa-pause-circle"></i>
+                        ) : (
+                          <i className="fas fa-play-circle"></i>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="top-artists">
+              <h2>Top Artists</h2>
+              <div className="grid-container large-layout">
+                {topArtists.map((artist) => (
+                  <div
+                    key={artist.id}
+                    className="artist"
+                    onClick={() => handleArtistClick(artist)}
+                  >
+                    <img
+                      src={artist.images[0]?.url || 'placeholder-url'}
+                      alt={artist.name}
+                      className="large-image"
+                    />
+                    <div className="artist-name">
+                      {artist.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
